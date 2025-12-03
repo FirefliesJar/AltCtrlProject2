@@ -12,11 +12,11 @@ keyboard.startKeyboardService()
 let isButtonOn = 0
 let TimePressed = 0
 basic.forever(function () {
-    if (isButtonOn == 0 && input.buttonIsPressed(Button.AB)) {
+    if (isButtonOn == 0 && (input.pinIsPressed(TouchPin.P0) && input.pinIsPressed(TouchPin.P2))) {
         keyboard.sendString(" ")
         isButtonOn = 1
         basic.showIcon(IconNames.Yes)
-    } else if (isButtonOn == 1 && !(input.buttonIsPressed(Button.AB))) {
+    } else if (isButtonOn == 1 && !(input.pinIsPressed(TouchPin.P0) && input.pinIsPressed(TouchPin.P2))) {
         if (TimePressed >= 2) {
             keyboard.sendString("" + keyboard.modifiers(keyboard._Modifier.apple) + "W")
             basic.showIcon(IconNames.No)
@@ -26,16 +26,12 @@ basic.forever(function () {
         }
         isButtonOn = 0
         TimePressed = 0
-    } else if (input.buttonIsPressed(Button.A) || input.buttonIsPressed(Button.B)) {
-        keyboard.sendString(" ")
-        basic.pause(100)
-        keyboard.sendString(" ")
     } else {
         basic.clearScreen()
     }
 })
 loops.everyInterval(100, function () {
-    if (input.buttonIsPressed(Button.A)) {
+    if (input.pinIsPressed(TouchPin.P0) && input.pinIsPressed(TouchPin.P2)) {
         TimePressed += 0.1
     }
 })
